@@ -268,7 +268,89 @@ code{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Libera
   opacity: 1;
   transform: translateY(0);
 }
+/* Accordion (Quadrant Framework) */
+.accordion {
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: rgba(255,255,255,.70);
+  padding: 12px 14px;
+}
 
+.accordion__summary {
+  list-style: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  user-select: none;
+}
+
+.accordion__summary::-webkit-details-marker { display: none; }
+
+.accordion__title {
+  font-family: Fraunces, serif;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  font-size: 20px;
+}
+
+.accordion__subtitle {
+  margin-top: 6px;
+  font-size: 13px;
+  color: rgba(0,0,0,.60);
+  font-weight: 700;
+}
+
+.accordion__chev {
+  font-size: 22px;
+  transform: rotate(0deg);
+  transition: transform .25s ease;
+  opacity: .7;
+}
+
+details[open] .accordion__chev {
+  transform: rotate(180deg);
+}
+
+.accordion__content {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+}
+
+/* Quadrant grid cards */
+.quadGrid {
+  display: grid;
+  gap: 12px;
+  margin-top: 14px;
+}
+
+@media (min-width: 880px) {
+  .quadGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.quadCard {
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: rgba(255,255,255,.78);
+  padding: 14px;
+}
+
+.quadTop { display: grid; gap: 6px; }
+
+.quadTitle {
+  font-weight: 900;
+  font-size: 15px;
+}
+
+.quadTag {
+  font-size: 13px;
+  color: rgba(0,0,0,.62);
+  font-weight: 700;
+}
 /* Small tweaks for tiny screens */
 @media(max-width:420px){
   .nav__inner{padding:12px 0}
