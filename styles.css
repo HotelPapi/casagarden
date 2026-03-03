@@ -115,7 +115,21 @@ code{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Libera
 .btn--circle{width:54px;height:54px;border-radius:999px;padding:0}
 .btn--success{background:#2f7d4a;color:#fff;border-color:rgba(0,0,0,.06)}
 .btn--danger{background:#ef6a45;color:#fff;border-color:rgba(0,0,0,.06)}
+/* Language selector */
+.langRow{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:14px;
+}
 
+.langBtn{ 
+  font-weight: 900; 
+}
+
+.langBtn.active{ 
+  outline:2px solid rgba(244,191,36,.55); 
+}
 /* Hero */
 .hero{position:relative;padding:130px 0 56px;overflow:hidden}
 .hero__inner{position:relative}
