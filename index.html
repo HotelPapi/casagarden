@@ -1,428 +1,66 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Casa Corazon — Bloom</title>
-  <meta name="description" content="Casa Corazon is a living community garden for hospitality professionals — where culture, training, and opportunity grow together." />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400,600,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CasaGarden — Casa Corazón</title>
+
   <link rel="stylesheet" href="styles.css" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 </head>
+
 <body>
-  <!-- Top nav -->
-  <header class="nav">
-    <div class="container nav__inner">
-      <a class="brand" href="#top" aria-label="Casa Corazon">
-        <span class="sun">☼</span>
-        <span class="brand__name">Casa Corazon</span>
-      </a>
 
-      <nav class="nav__links" aria-label="Primary">
-        <a href="#case-studies">Case Studies</a>
-        <a href="#growth-garden">Growth Garden</a>
-        <a href="#training">Training</a>
-        <a href="#resume">Resume Builder</a>
-        <a href="#resources">Resources</a>
-      </nav>
-
-      <a class="btn btn--primary" href="#contact">Get in Touch</a>
+<nav class="nav">
+  <div class="container nav__inner">
+    <div class="brand">
+      <span class="sun">🌻</span>
+      <span class="brand__name">CasaGarden</span>
     </div>
-  </header>
+  </div>
+</nav>
 
-  <!-- Hero -->
-  <main id="top">
-    <section class="hero">
-      <div class="hero__bg" aria-hidden="true">
-        <div class="hero__bgOverlay"></div>
-      </div>
+<section class="hero">
+  <div class="hero__bg"></div>
+  <div class="hero__bgOverlay"></div>
 
-      <div class="container hero__inner">
-        <h1 class="display">Growing people through kindness.</h1>
-        <p class="lead">
-          Casa Corazon is a living community garden for hospitality professionals — where culture, training, and opportunity grow together.
-        </p>
+  <div class="container hero__inner">
+    <h1 class="display">Casa Corazón Workforce Intelligence</h1>
+    <p class="lead">
+      Interactive leadership diagnostics powered by the Table of Kindness methodology.
+    </p>
+  </div>
+</section>
 
-        <div class="hero__cta">
-          <a class="btn btn--primary btn--lg" href="#growth-garden">Enter the Garden</a>
-          <a class="btn btn--ghost btn--lg" href="#case-studies">View Case Studies</a>
-        </div>
+<!-- ================= STICKER WALL ================= -->
 
-        <div class="pillRow" aria-label="Focus areas">
-          <span class="pill pill--yellow">Culture</span>
-          <span class="pill pill--mint">Training</span>
-          <span class="pill pill--sky">Leadership</span>
-          <span class="pill pill--rose">Resumes</span>
-          <span class="pill pill--sand">Placement</span>
-          <span class="pill pill--mint">Growth</span>
-          <span class="pill pill--sky">Pride</span>
-          <span class="pill pill--rose">Care</span>
-        </div>
+<section class="section reveal">
+  <div class="container">
 
-        <div class="scrollHint">Scroll into the gardens <span aria-hidden="true">⌄</span></div>
-      </div>
-    </section>
+    <h2 class="h2">Values Identification Study</h2>
+    <p class="subhead">
+      You have <strong id="stickerRemaining">3</strong> sticky notes. Place them on what matters most at work.
+    </p>
 
-    <!-- Case Studies -->
-    <section id="case-studies" class="section section--soft">
-      <div class="container">
-        <h2 class="h2">What We've Grown</h2>
-        <p class="subhead">Real programs making real impact in hospitality teams.</p>
+    <div class="stickerGrid" id="stickerGrid"></div>
 
-        <div class="grid2">
-          <article class="card card--tint card--sun">
-            <h3 class="h3">Table of Kindness</h3>
-            <p class="muted">A daily culture ritual that turns appreciation into repeatable team behavior.</p>
-            <ul class="bullets">
-              <li>Builds daily micro-recognition</li>
-              <li>Reinforces service standards</li>
-              <li>Creates visible culture momentum</li>
-            </ul>
-            <div class="tagRow">
-              <span class="tag">Culture</span><span class="tag">Engagement</span><span class="tag">Consistency</span>
-            </div>
-            <a class="link" href="#growth-garden">See how it works →</a>
-          </article>
+    <div class="topValues">
+      <div class="muted small">Your top values</div>
+      <div class="topValues__row" id="topValuesRow"></div>
+    </div>
 
-          <article class="card card--tint card--sky">
-            <h3 class="h3">Values Identification Study</h3>
-            <p class="muted">A structured exercise that helps teams identify what matters most at work and translate values into action.</p>
-            <ul class="bullets">
-              <li>Values-to-behavior mapping</li>
-              <li>Multilingual friendly</li>
-              <li>Leadership coaching insights</li>
-            </ul>
-            <div class="tagRow">
-              <span class="tag">Training</span><span class="tag">Leadership</span><span class="tag">Communication</span>
-            </div>
-            <a class="link" href="#growth-garden">Try the experience →</a>
-          </article>
-        </div>
-      </div>
-    </section>
+    <div class="topValues" style="margin-top:12px">
+      <div class="muted small">Quadrant insight</div>
+      <div id="quadrantResult" style="margin-top:10px;font-weight:800"></div>
+      <div id="quadrantTips" class="muted" style="margin-top:8px;line-height:1.5"></div>
+    </div>
 
-    <!-- Growth Garden -->
-    <section id="growth-garden" class="section">
-      <div class="container">
-        <h2 class="h2">The Growth Garden</h2>
-        <p class="subhead">Interactive tools to explore values, build culture, and sharpen your skills.</p>
+  </div>
+</section>
 
-        <div class="gardenGrid">
-          <!-- Values Sticker Wall -->
-          <section class="card card--tint card--sage" aria-label="Values sticker wall">
-            <div class="cardHead">
-              <div>
-                <h3 class="h3">🌱 Values Sticker Wall</h3>
-                <p class="muted">You have <strong id="stickerRemaining">5</strong> stickers remaining. Place them on the values that matter most to you.</p>
-              </div>
-              <button class="btn btn--tiny" id="stickerReset">Reset</button>
-            </div>
-
-            <div class="stickerGrid" id="stickerGrid"></div>
-
-            <div class="topValues">
-              <div class="muted small">Your top values</div>
-              <div class="topValues__row" id="topValuesRow"></div>
-            </div>
-          </section>
-
-          <!-- Playlist -->
-          <section class="card card--tint card--mint" aria-label="Playlist">
-            <div class="cardHead">
-              <div>
-                <h3 class="h3">🎧 Table of Kindness Playlist</h3>
-                <p class="muted">Optional vibe layer. Add your own mp3 files in <code>/audio</code> and update the list below.</p>
-              </div>
-            </div>
-
-            <div class="player">
-              <button class="btn btn--circle" id="playBtn" aria-label="Play or pause">
-                <span id="playIcon">►</span>
-              </button>
-              <div class="player__meta">
-                <div class="player__title" id="trackTitle">Morning Kindness Meditation</div>
-                <div class="player__bar"><div class="player__barFill" id="barFill"></div></div>
-                <div class="small muted" id="trackHint">Playlist (3) ▾</div>
-              </div>
-            </div>
-
-            <details class="trackList">
-              <summary class="small muted">Playlist (3)</summary>
-              <div id="trackList"></div>
-            </details>
-
-            <audio id="audio" preload="none"></audio>
-          </section>
-
-          <!-- KPI Quick Benchmark -->
-          <section class="card card--tint card--peach" aria-label="KPI Quick Benchmark">
-            <div class="cardHead">
-              <div>
-                <h3 class="h3">📊 KPI Quick Benchmark</h3>
-                <p class="muted">Rooms per labor hour quick check.</p>
-              </div>
-            </div>
-
-            <div class="form3">
-              <label class="field">
-                <span>Shift Minutes</span>
-                <input id="kpiMinutes" type="number" min="1" value="480" />
-              </label>
-              <label class="field">
-                <span>Rooms Cleaned</span>
-                <input id="kpiRooms" type="number" min="1" value="16" />
-              </label>
-              <label class="field">
-                <span>Attendants</span>
-                <input id="kpiAttendants" type="number" min="1" value="1" />
-              </label>
-            </div>
-
-            <div class="kpiOut">
-              <div class="kpiBox">
-                <div class="small muted">RPH</div>
-                <div class="kpiNum" id="kpiRph">—</div>
-              </div>
-              <div class="kpiBox kpiBox--wide">
-                <div class="small muted">Interpretation</div>
-                <div class="kpiLabel" id="kpiLabel">Enter valid numbers</div>
-                <div class="muted small" id="kpiNote">Add room types + audit score for real accuracy.</div>
-              </div>
-            </div>
-          </section>
-        </div>
-      </div>
-    </section>
-
-    <!-- Training / PMS -->
-    <section id="training" class="section section--soft">
-      <div class="container">
-        <h2 class="h2">PMS Training Sandbox</h2>
-        <p class="subhead">Practice environment for new hospitality professionals. <span class="muted"><em>This is a simplified learning environment.</em></span></p>
-
-        <div class="pmsGrid">
-          <section class="card pmsCard">
-            <div class="pmsHeader">
-              <div class="small muted">Rooms</div>
-              <div class="small muted">Tap a row to select</div>
-            </div>
-
-            <div class="pmsTableWrap">
-              <table class="pmsTable" aria-label="PMS rooms table">
-                <thead>
-                  <tr>
-                    <th>Room</th><th>Type</th><th>Status</th><th>Guest</th><th class="right">Balance</th>
-                  </tr>
-                </thead>
-                <tbody id="pmsTbody"></tbody>
-              </table>
-            </div>
-
-            <div class="pmsActions">
-              <div class="pmsBtns">
-                <button class="btn btn--success" id="pmsCheckIn">↳ Check-in</button>
-                <button class="btn btn--danger" id="pmsCheckOut">↳ Check-out</button>
-                <button class="btn btn--primary" id="pmsPostCharge">$ Post Charge</button>
-              </div>
-
-              <div class="statusBtns" aria-label="Set room status">
-                <button class="chip" data-status="Clean">Clean</button>
-                <button class="chip" data-status="Dirty">Dirty</button>
-                <button class="chip" data-status="Inspected">Inspected</button>
-                <button class="chip" data-status="Out of Order">Out of Order</button>
-              </div>
-            </div>
-
-            <div class="pmsInputs">
-              <label class="field">
-                <span>Guest Name</span>
-                <input id="pmsGuest" placeholder="Garcia, M." />
-              </label>
-              <label class="field">
-                <span>Charge Amount</span>
-                <input id="pmsCharge" type="number" min="1" value="25" />
-              </label>
-            </div>
-          </section>
-
-          <aside class="card pmsLog">
-            <div class="cardHead">
-              <div>
-                <h3 class="h3">⚙️ Activity Log</h3>
-                <p class="muted">System initialized — ready for training.</p>
-              </div>
-            </div>
-            <div class="log" id="pmsLog"></div>
-          </aside>
-        </div>
-      </div>
-    </section>
-
-    <!-- Resume Builder -->
-    <section id="resume" class="section">
-      <div class="container">
-        <h2 class="h2">Career Garden</h2>
-        <p class="subhead">Submit your information so Casa Corazon can support your career path and connect you with opportunities.</p>
-        <p class="small muted center">🛡️ Do not include sensitive IDs.</p>
-
-        <div class="resumeGrid">
-          <section class="card">
-            <h3 class="h3">Candidate Intake</h3>
-            <p class="muted">Keep it simple. Paste bullets. We’ll help refine.</p>
-
-            <form id="resumeForm" class="resumeForm">
-              <label class="field">
-                <span>Full Name</span>
-                <input name="fullName" placeholder="Full Name" />
-              </label>
-              <label class="field">
-                <span>Target Role</span>
-                <input name="targetRole" placeholder="Target Role" />
-              </label>
-              <label class="field">
-                <span>Email</span>
-                <input name="email" type="email" placeholder="Email" />
-              </label>
-              <label class="field">
-                <span>Phone</span>
-                <input name="phone" placeholder="Phone" />
-              </label>
-              <label class="field">
-                <span>City / State</span>
-                <input name="location" placeholder="Miami, FL" />
-              </label>
-
-              <label class="field">
-                <span>Skills (comma-separated)</span>
-                <input name="skills" placeholder="Skills (comma-separated)" />
-              </label>
-              <label class="field">
-                <span>Languages</span>
-                <input name="languages" placeholder="Languages" />
-              </label>
-
-              <label class="field">
-                <span>Experience</span>
-                <textarea name="experience" rows="6" placeholder="Hotel — Role — Dates&#10;- Bullet&#10;- Bullet"></textarea>
-              </label>
-              <label class="field">
-                <span>Education</span>
-                <textarea name="education" rows="3" placeholder="School — Degree — Year"></textarea>
-              </label>
-              <label class="field">
-                <span>Certifications</span>
-                <textarea name="certifications" rows="3" placeholder="ServSafe, CPR, OSHA, Excel…"></textarea>
-              </label>
-
-              <div class="notice small muted">
-                By submitting, you’re sharing this info with Casa Corazon for career support and potential placement.
-              </div>
-            </form>
-          </section>
-
-          <section class="card card--tint card--sun">
-            <h3 class="h3">Live Preview</h3>
-            <div class="preview">
-              <pre id="resumePreview" class="preview__text">Start typing to see your resume preview…</pre>
-            </div>
-
-            <div class="btnRow">
-              <button class="btn btn--primary" id="copyResume">▣ Copy Resume</button>
-              <a class="btn btn--ghost" id="emailResume" href="#">✈ Email to Casa Corazon</a>
-            </div>
-
-            <p class="small muted">
-              This download uses <code>mailto:</code> for now (opens the user’s email app). We can upgrade to a real secure form endpoint later.
-            </p>
-          </section>
-        </div>
-      </div>
-    </section>
-
-    <!-- Mission -->
-    <section class="section section--tint">
-      <div class="container">
-        <h2 class="h2 center">Our Mission</h2>
-        <p class="subhead center">Building careers, not just filling positions.</p>
-
-        <div class="grid3">
-          <div class="card">
-            <div class="iconCircle">🎓</div>
-            <h3 class="h3 center">Craft Training & Upskilling</h3>
-            <p class="muted center">Hands-on programs in housekeeping, front office, and food service excellence.</p>
-          </div>
-          <div class="card">
-            <div class="iconCircle">📈</div>
-            <h3 class="h3 center">Leadership Readiness</h3>
-            <p class="muted center">Excel proficiency, KPI literacy, and supervisor development pathways.</p>
-          </div>
-          <div class="card">
-            <div class="iconCircle">🤝</div>
-            <h3 class="h3 center">Placement & Hotel Partnerships</h3>
-            <p class="muted center">Direct connections to hotel partners ready to invest in trained, values-driven talent.</p>
-          </div>
-        </div>
-
-        <h3 class="h3 center" style="margin-top:26px;">Partner Hotels</h3>
-        <div class="logos">
-          <div class="logoBox">Hotel Logo</div>
-          <div class="logoBox">Hotel Logo</div>
-          <div class="logoBox">Hotel Logo</div>
-          <div class="logoBox">Hotel Logo</div>
-          <div class="logoBox">Hotel Logo</div>
-          <div class="logoBox">Hotel Logo</div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Resources -->
-    <section id="resources" class="section section--soft">
-      <div class="container">
-        <h2 class="h2">Resources</h2>
-        <p class="subhead">Tools you can use tomorrow.</p>
-
-        <div class="grid3">
-          <div class="card">
-            <div class="tagRow"><span class="tag">PDF</span></div>
-            <h3 class="h3">Hospitality Fundamentals — Front Office Essentials</h3>
-            <p class="muted">10–5 rule, language standards, ownership mindset, local recommendations.</p>
-            <a class="btn btn--ghost" href="#">Download</a>
-          </div>
-          <div class="card">
-            <div class="tagRow"><span class="tag">Slides</span></div>
-            <h3 class="h3">Housekeeping Productivity Playbook</h3>
-            <p class="muted">Rooms/hour baseline, audit routines, supply controls, morale rituals.</p>
-            <a class="btn btn--ghost" href="#">Download</a>
-          </div>
-          <div class="card">
-            <div class="tagRow"><span class="tag">Template</span></div>
-            <h3 class="h3">Supervisor KPI Starter Pack (Excel)</h3>
-            <p class="muted">Variance tracking, labor productivity, basic dashboards, weekly rhythm.</p>
-            <a class="btn btn--ghost" href="#">Download</a>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Contact -->
-    <section id="contact" class="section">
-      <div class="container">
-        <div class="contactCard">
-          <div>
-            <h2 class="h2">Get in touch</h2>
-            <p class="muted">Partner with Casa Corazon or send a resume request.</p>
-          </div>
-          <div class="contactBtns">
-            <a class="btn btn--primary" href="mailto:hello@casacorazon.org">Email us</a>
-            <a class="btn btn--ghost" href="#top">Back to top</a>
-          </div>
-        </div>
-        <footer class="footer small muted">© <span id="year"></span> Casa Corazon. Built with heart + systems.</footer>
-      </div>
-    </section>
-  </main>
-
-  <script src="app.js"></script>
+<script src="app.js"></script>
 </body>
 </html>
