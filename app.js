@@ -374,6 +374,22 @@
       education: (fd.get("education")||"").toString().trim(),
       certifications: (fd.get("certifications")||"").toString().trim(),
     };
+    // ===== Scroll Reveal Observer =====
+
+const observer = new IntersectionObserver(
+  (entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("visible");
+      }
+    });
+  },
+  { threshold: 0.15 }
+);
+
+document.querySelectorAll(".reveal").forEach((el) => {
+  observer.observe(el);
+});
   }
 
   function updateResume(){
