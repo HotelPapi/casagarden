@@ -188,8 +188,9 @@ code{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Libera
 
 /* Growth Garden layout */
 .gardenGrid{display:grid;gap:18px;margin-top:26px}
+/* no more 2-column layout */
 @media(min-width:960px){
-  .gardenGrid{grid-template-columns: 1.25fr .85fr}
+  .gardenGrid{grid-template-columns: 1fr}
 }
 
 /* ===== Values Sticker Wall (3 sticky notes) ===== */
