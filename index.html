@@ -109,6 +109,50 @@
         <p class="subhead">Interactive tools to explore values, build culture, and sharpen your skills.</p>
 
         <div class="gardenGrid">
+
+          <!-- Values Sticker Wall -->
+          <div class="card card--tint card--sage" aria-label="Values sticker wall">
+            <div class="cardHead">
+              <div>
+                <h3 class="h3">🌱 Values Sticker Wall</h3>
+                <p class="subhead">Tap three values that matter most to you at work. You’ll get a quadrant alignment and leadership insight.</p>
+              </div>
+              <a class="btn btn--tiny" href="#framework">Quadrant Framework</a>
+            </div>
+
+            <div data-sticker-wall>
+              <div class="stickerControls">
+                <div class="stickerBank" aria-label="Your sticky notes">
+                  <div class="note note--yellow">1</div>
+                  <div class="note note--mint">2</div>
+                  <div class="note note--sky">3</div>
+                  <div class="noteSmall">Notes remaining: <strong data-remaining>3</strong></div>
+                </div>
+
+                <button class="btn btn--tiny btn--danger" type="button" data-reset>Reset</button>
+              </div>
+
+              <div class="tapHint">Tip: on mobile, just tap the value you want. (No dragging needed.)</div>
+
+              <div class="stickerGrid" data-values></div>
+
+              <div class="resultPanel">
+                <div class="resultTitle">Your picks</div>
+                <div class="quadPills" data-chosen></div>
+
+                <div class="resultGrid" style="margin-top:14px">
+                  <div class="resultCard">
+                    <div class="resultTitle" data-judgement-title>Place 3 sticky notes to see your quadrant insight.</div>
+                    <p class="subhead" data-judgement-text>Tap three values that matter most to you at work. We’ll map them into a quadrant to guide leadership approach.</p>
+                  </div>
+                  <div class="resultCard">
+                    <div class="resultTitle">Leadership moves to try</div>
+                    <ul class="bullets" data-judgement-moves></ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
           <!-- Quadrant Framework (Collapsible) -->
 <div class="card card--tint reveal" style="margin-top:18px;">
   <details class="accordion" id="quadrantFramework">
@@ -189,50 +233,6 @@
     </div>
   </details>
 </div>
-          <!-- Values Sticker Wall -->
-          <div class="card card--tint card--sage" aria-label="Values sticker wall">
-            <div class="cardHead">
-              <div>
-                <h3 class="h3">🌱 Values Sticker Wall</h3>
-                <p class="subhead">Tap three values that matter most to you at work. You’ll get a quadrant alignment and leadership insight.</p>
-              </div>
-              <a class="btn btn--tiny" href="#framework">Quadrant Framework</a>
-            </div>
-
-            <div data-sticker-wall>
-              <div class="stickerControls">
-                <div class="stickerBank" aria-label="Your sticky notes">
-                  <div class="note note--yellow">1</div>
-                  <div class="note note--mint">2</div>
-                  <div class="note note--sky">3</div>
-                  <div class="noteSmall">Notes remaining: <strong data-remaining>3</strong></div>
-                </div>
-
-                <button class="btn btn--tiny btn--danger" type="button" data-reset>Reset</button>
-              </div>
-
-              <div class="tapHint">Tip: on mobile, just tap the value you want. (No dragging needed.)</div>
-
-              <div class="stickerGrid" data-values></div>
-
-              <div class="resultPanel">
-                <div class="resultTitle">Your picks</div>
-                <div class="quadPills" data-chosen></div>
-
-                <div class="resultGrid" style="margin-top:14px">
-                  <div class="resultCard">
-                    <div class="resultTitle" data-judgement-title>Place 3 sticky notes to see your quadrant insight.</div>
-                    <p class="subhead" data-judgement-text>Tap three values that matter most to you at work. We’ll map them into a quadrant to guide leadership approach.</p>
-                  </div>
-                  <div class="resultCard">
-                    <div class="resultTitle">Leadership moves to try</div>
-                    <ul class="bullets" data-judgement-moves></ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
         <!-- Playlist -->
           <section class="card card--tint card--mint" aria-label="Playlist">
             <div class="cardHead">
