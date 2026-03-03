@@ -304,3 +304,15 @@ code{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Libera
 }
 .contactBtns{display:flex;gap:12px;flex-wrap:wrap}
 .footer{padding:18px 0;text-align:center}
+/* ===== Scroll Reveal Animation ===== */
+
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: all 0.8s ease;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
