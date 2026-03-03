@@ -155,7 +155,9 @@ code{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Libera
   .grid2{grid-template-columns:1fr 1fr}
   .grid3{grid-template-columns:1fr 1fr 1fr}
 }
-
+html {
+  scroll-behavior: smooth;
+}
 /* Cards */
 .card{
   border:1px solid var(--line);
