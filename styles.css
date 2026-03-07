@@ -295,7 +295,7 @@ code{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Libera
 .quadRefWrap{
   margin-top: 14px;
   display:flex;
-  justify-content:flex-end; /* pill sits neatly on the right */
+  justify-content:flex-start; /* pill sits neatly on the right */
 }
 
 .quadRef{
