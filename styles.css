@@ -370,6 +370,211 @@ details[open] .quadRef__chev{ transform: rotate(180deg); }
   background: rgba(255,255,255,.78);
   padding: 14px;
 }
+/* ===== Front Desk / PMS Training Module ===== */
+.pmsTrain__top{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:18px;
+  flex-wrap:wrap;
+  margin-bottom:18px;
+}
+
+.pmsTrain__progressWrap{
+  min-width:220px;
+  display:grid;
+  gap:6px;
+}
+
+.pmsTrain__progressBar{
+  height:10px;
+  border-radius:999px;
+  background:rgba(0,0,0,.08);
+  overflow:hidden;
+}
+
+.pmsTrain__progressFill{
+  height:100%;
+  width:0%;
+  background:var(--green);
+  border-radius:999px;
+  transition:width .35s ease;
+}
+
+.pmsTrain__panel{
+  border:1px solid var(--line);
+  background:rgba(255,255,255,.78);
+  border-radius:20px;
+  padding:18px;
+}
+
+.pmsTrain__prompt{
+  border:1px solid rgba(47,125,74,.16);
+  background:rgba(47,125,74,.06);
+  border-radius:18px;
+  padding:16px;
+  margin-bottom:14px;
+}
+
+.pmsTrain__promptTitle{
+  font-weight:900;
+  margin-bottom:6px;
+}
+
+.pmsTrain__guest{
+  display:flex;
+  gap:10px;
+  align-items:flex-start;
+  margin-bottom:14px;
+}
+
+.pmsTrain__guestBubble{
+  background:rgba(0,0,0,.05);
+  border-radius:18px 18px 18px 6px;
+  padding:12px 14px;
+  max-width:560px;
+}
+
+.pmsTrain__actions{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:10px;
+}
+
+.pmsTrain__inputRow{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:12px;
+}
+
+.pmsTrain__input{
+  flex:1 1 260px;
+  border-radius:16px;
+  border:1px solid var(--line);
+  background:white;
+  padding:12px 14px;
+  font-size:14px;
+  outline:none;
+}
+
+.pmsTrain__input:focus{
+  border-color:rgba(0,0,0,.22);
+}
+
+.pmsTrain__error{
+  color:#c04221;
+  font-size:12px;
+  margin-top:8px;
+  font-weight:700;
+}
+
+.pmsTrain__arrivalList{
+  display:grid;
+  gap:10px;
+  margin-top:12px;
+}
+
+.pmsTrain__arrival{
+  width:100%;
+  text-align:left;
+  border:1px solid var(--line);
+  background:rgba(255,255,255,.78);
+  border-radius:16px;
+  padding:14px;
+  cursor:pointer;
+}
+
+.pmsTrain__arrival:hover{
+  background:rgba(0,0,0,.02);
+}
+
+.pmsTrain__arrival--match{
+  border-color:rgba(47,125,74,.25);
+  background:rgba(47,125,74,.06);
+}
+
+.pmsTrain__arrivalName{
+  font-weight:800;
+}
+
+.pmsTrain__arrivalMeta{
+  margin-top:4px;
+  font-size:12px;
+  color:var(--muted);
+}
+
+.pmsTrain__meter{
+  margin-top:10px;
+  height:12px;
+  border-radius:999px;
+  background:rgba(0,0,0,.08);
+  overflow:hidden;
+}
+
+.pmsTrain__meterFill{
+  height:100%;
+  width:0%;
+  background:var(--green);
+  border-radius:999px;
+  transition:width .15s linear;
+}
+
+.pmsTrain__mini{
+  font-size:12px;
+  color:var(--muted);
+  margin-top:8px;
+}
+
+.pmsTrain__analysisList{
+  display:grid;
+  gap:12px;
+  margin-top:14px;
+}
+
+.pmsTrain__analysisItem{
+  border:1px solid var(--line);
+  background:rgba(255,255,255,.78);
+  border-radius:18px;
+  padding:16px;
+}
+
+.pmsTrain__analysisTitle{
+  font-weight:900;
+  margin-bottom:6px;
+}
+
+.pmsTrain__analysisBehavior{
+  font-size:12px;
+  color:var(--green);
+  font-weight:800;
+  margin-bottom:8px;
+  font-style:italic;
+}
+
+.pmsTrain__badgeNum{
+  display:inline-grid;
+  place-items:center;
+  width:28px;
+  height:28px;
+  border-radius:999px;
+  background:rgba(47,125,74,.10);
+  color:var(--green);
+  font-size:12px;
+  font-weight:900;
+  margin-right:8px;
+}
+
+@media (max-width:640px){
+  .pmsTrain__top{
+    align-items:stretch;
+  }
+
+  .pmsTrain__progressWrap{
+    min-width:100%;
+  }
+}
 
 .quadTitle{ font-weight: 900; font-size: 15px; }
 .quadTag{ font-size: 13px; color: rgba(0,0,0,.62); font-weight: 700; margin-top: 6px; }
