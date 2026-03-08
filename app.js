@@ -1,543 +1,640 @@
-/* CasaGarden — interactive vanilla JS (no build step)
-   - Scroll reveal animations
-   - Values Sticker Wall (3 sticky notes)
-   - Multilingual support: English, Spanish, Haitian Creole, Georgian
-*/
-
-(function(){
-  "use strict";
-
-  // ===== Language (I18N) =====
-  let activeLang = "en";
-
-  const I18N = {
-    en: {
-      wallTitle: "Values Sticker Wall",
-      wallDesc:
-        "Tap three values that matter most to you at work. You’ll get a quadrant alignment and leadership insight.",
-      tapHint:
-        "Tip: on mobile, just tap the value you want. (No dragging needed.)",
-      notesRemaining: (n) => `Notes remaining: ${n}`,
-      reset: "Reset",
-      placeNote: "Tap to place a sticky note",
-      progress: (n) => `Progress: ${n}/3 notes placed`,
-      needAllThree:
-        "Place all 3 sticky notes to get your quadrant alignment and leadership insight.",
-      chosenTitle: "Your notes",
-      judgementDefaultTitle:
-        "Place 3 sticky notes to see your quadrant insight.",
-      judgementDefaultDesc:
-        "Tap three values that matter most to you at work. We’ll map them into a quadrant to guide leadership approach.",
-      primary: (name) => `Primary Alignment: ${name}`,
-      blended: (names) => `Blended Alignment: ${names.join(" + ")}`,
-      blendedNarrative: (names) =>
-        `Your notes are split across ${names.join(
-          " + "
-        )}. This usually means your team needs a dual approach: stabilize the basics while strengthening culture/leadership signals.`,
-      languages: {
-        en: "English",
-        es: "Español",
-        ht: "Kreyòl",
-        ka: "ქართული"
-      },
-      values: {
-        fairPay: "Fair Pay",
-        threeMeals: "Three Meals a Day",
-        respect: "Respect & Appreciation",
-        communication: "Communication",
-        teamwork: "Teamwork",
-        growth: "Growth & Opportunity",
-        leadership: "Leadership Support",
-        workLife: "Work-Life Balance",
-        safety: "Safety",
-        recognition: "Recognition",
-        kindness: "Kindness & Compassion",
-        belonging: "Belonging"
-      },
-      quadrants: {
-        Q1: "Foundational Security",
-        Q2: "Belonging & Team Connection",
-        Q3: "Personal Growth & Future Orientation",
-        Q4: "Respect, Voice & Emotional Intelligence"
-      }
-    },
-
-    es: {
-      wallTitle: "Muro de Valores",
-      wallDesc:
-        "Toca tres valores que más te importan en el trabajo. Recibirás tu cuadrante y una guía de liderazgo.",
-      tapHint:
-        "Consejo: en el móvil, solo toca el valor que quieras. (No hace falta arrastrar.)",
-      notesRemaining: (n) => `Notas restantes: ${n}`,
-      reset: "Reiniciar",
-      placeNote: "Toca para colocar una nota",
-      progress: (n) => `Progreso: ${n}/3 notas colocadas`,
-      needAllThree:
-        "Coloca las 3 notas para ver tu cuadrante y la guía de liderazgo.",
-      chosenTitle: "Tus notas",
-      judgementDefaultTitle: "Coloca 3 notas para ver tu cuadrante.",
-      judgementDefaultDesc:
-        "Toca tres valores que más te importan en el trabajo. Los mapearemos a un cuadrante para guiar el enfoque de liderazgo.",
-      primary: (name) => `Alineación principal: ${name}`,
-      blended: (names) => `Alineación combinada: ${names.join(" + ")}`,
-      blendedNarrative: (names) =>
-        `Tus notas se reparten entre ${names.join(
-          " + "
-        )}. Esto normalmente indica un enfoque dual: estabilizar lo básico mientras se fortalece la cultura/señales de liderazgo.`,
-      languages: {
-        en: "English",
-        es: "Español",
-        ht: "Kreyòl",
-        ka: "ქართული"
-      },
-      values: {
-        fairPay: "Pago justo",
-        threeMeals: "Tres comidas al día",
-        respect: "Respeto y aprecio",
-        communication: "Comunicación",
-        teamwork: "Trabajo en equipo",
-        growth: "Crecimiento y oportunidades",
-        leadership: "Apoyo del liderazgo",
-        workLife: "Equilibrio vida-trabajo",
-        safety: "Seguridad",
-        recognition: "Reconocimiento",
-        kindness: "Amabilidad y compasión",
-        belonging: "Pertenencia"
-      },
-      quadrants: {
-        Q1: "Seguridad fundamental",
-        Q2: "Pertenencia y conexión del equipo",
-        Q3: "Crecimiento personal y orientación al futuro",
-        Q4: "Respeto, voz e inteligencia emocional"
-      }
-    },
-
-    ht: {
-      wallTitle: "Miray Valè yo",
-      wallDesc:
-        "Manyen 3 valè ki pi enpòtan pou ou nan travay. W ap jwenn kad (quadrant) ou ak yon bon direksyon pou lidèchip.",
-      tapHint:
-        "Konsèy: sou telefòn, jis manyen valè ou vle a. (Pa bezwen trennen.)",
-      notesRemaining: (n) => `Nòt ki rete: ${n}`,
-      reset: "Reyinisyalize",
-      placeNote: "Manyen pou mete yon nòt",
-      progress: (n) => `Pwogrè: ${n}/3 nòt mete`,
-      needAllThree:
-        "Mete tout 3 nòt yo pou w jwenn kad ou ak direksyon lidèchip la.",
-      chosenTitle: "Nòt ou yo",
-      judgementDefaultTitle: "Mete 3 nòt pou w wè kad ou.",
-      judgementDefaultDesc:
-        "Manyen 3 valè ki pi enpòtan pou ou nan travay. N ap mete yo nan yon kad pou gide fason pou dirije ekip la.",
-      primary: (name) => `Kad prensipal: ${name}`,
-      blended: (names) => `Kad melanje: ${names.join(" + ")}`,
-      blendedNarrative: (names) =>
-        `Nòt ou yo gaye nan ${names.join(
-          " + "
-        )}. Sa souvan vle di ou bezwen de apwòch: mete baz yo solid pandan w ap ranfòse kilti / siy lidèchip yo.`,
-      languages: {
-        en: "English",
-        es: "Español",
-        ht: "Kreyòl",
-        ka: "ქართული"
-      },
-      values: {
-        fairPay: "Salè jis",
-        threeMeals: "Twa manje pa jou",
-        respect: "Respè ak apresyasyon",
-        communication: "Kominikasyon",
-        teamwork: "Travay ann ekip",
-        growth: "Kwazans ak opòtinite",
-        leadership: "Sipò lidèchip",
-        workLife: "Balans travay ak lavi",
-        safety: "Sekirite",
-        recognition: "Rekonesans",
-        kindness: "Jantiyès ak konpasyon",
-        belonging: "Sans apatenans"
-      },
-      quadrants: {
-        Q1: "Sekirite fondamantal",
-        Q2: "Apatenans ak koneksyon ekip",
-        Q3: "Kwazans pèsonèl ak vizyon lavni",
-        Q4: "Respè, vwa, ak entèlijans emosyonèl"
-      }
-    },
-
-    ka: {
-      wallTitle: "ღირებულებების სტიკერის კედელი",
-      wallDesc:
-        "აირჩიეთ სამი ღირებულება, რომელიც სამსახურში თქვენთვის ყველაზე მნიშვნელოვანია. მიიღებთ თქვენს კვადრანტს და ლიდერობის ხედვას.",
-      tapHint:
-        "რჩევა: მობილურზე უბრალოდ შეეხეთ სასურველ ღირებულებას. (გადათრევა არ არის საჭირო.)",
-      notesRemaining: (n) => `დარჩენილი სტიკერები: ${n}`,
-      reset: "განულება",
-      placeNote: "შეეხეთ სტიკერის დასადებად",
-      progress: (n) => `პროგრესი: ${n}/3 სტიკერი დადებულია`,
-      needAllThree:
-        "დაადეთ სამივე სტიკერი, რათა ნახოთ თქვენი კვადრანტი და ლიდერობის ხედვა.",
-      chosenTitle: "თქვენი სტიკერები",
-      judgementDefaultTitle:
-        "დაადეთ 3 სტიკერი, რომ ნახოთ თქვენი კვადრანტი.",
-      judgementDefaultDesc:
-        "აირჩიეთ სამი ყველაზე მნიშვნელოვანი ღირებულება სამსახურში. ჩვენ მათ კვადრანტში მოვათავსებთ ლიდერობის მიდგომის განსაზღვრისთვის.",
-      primary: (name) => `ძირითადი შესაბამისობა: ${name}`,
-      blended: (names) => `შერეული შესაბამისობა: ${names.join(" + ")}`,
-      blendedNarrative: (names) =>
-        `თქვენი სტიკერები გადანაწილებულია ${names.join(
-          " + "
-        )}-ზე. ეს ჩვეულებრივ ნიშნავს ორმაგ მიდგომას: საფუძვლების გამყარება და პარალელურად კულტურის/ლიდერობის სიგნალების გაძლიერება.`,
-      languages: {
-        en: "English",
-        es: "Español",
-        ht: "Kreyòl",
-        ka: "ქართული"
-      },
-      values: {
-        fairPay: "სამართლიანი ანაზღაურება",
-        threeMeals: "სამი კვება დღეში",
-        respect: "პატივისცემა და დაფასება",
-        communication: "კომუნიკაცია",
-        teamwork: "გუნდური მუშაობა",
-        growth: "ზრდა და შესაძლებლობები",
-        leadership: "ლიდერობის მხარდაჭერა",
-        workLife: "სამუშაო-ცხოვრების ბალანსი",
-        safety: "უსაფრთხოება",
-        recognition: "აღიარება",
-        kindness: "კეთილგანწყობა და თანაგრძნობა",
-        belonging: "კუთვნილების შეგრძნება"
-      },
-      quadrants: {
-        Q1: "საფუძვლური უსაფრთხოება",
-        Q2: "კუთვნილება და გუნდური კავშირი",
-        Q3: "პირადი ზრდა და მომავლის ორიენტაცია",
-        Q4: "პატივისცემა, ხმა და ემოციური ინტელექტი"
-      }
-    }
-  };
-
-  function t(){
-    return I18N[activeLang] || I18N.en;
-  }
-
-  // ===== Scroll reveal =====
-  function initReveal(){
-    const items = Array.from(document.querySelectorAll('.reveal'));
-    if (!items.length) return;
-
-    if (!('IntersectionObserver' in window)){
-      items.forEach(el => el.classList.add('visible'));
-      return;
-    }
-
-    const obs = new IntersectionObserver((entries)=>{
-      for (const e of entries){
-        if (e.isIntersecting){
-          e.target.classList.add('visible');
-          obs.unobserve(e.target);
-        }
-      }
-    }, { threshold: 0.14 });
-
-    items.forEach(el => obs.observe(el));
-  }
-
-  // ===== Values Sticker Wall =====
-  const VALUE_KEYS = [
-    "fairPay",
-    "threeMeals",
-    "respect",
-    "communication",
-    "teamwork",
-    "growth",
-    "leadership",
-    "workLife",
-    "safety",
-    "recognition",
-    "kindness",
-    "belonging"
-  ];
-
-  // Quadrant mapping from your framework
-  const QUADRANTS = {
-    Q1: {
-      key: "Q1",
-      values: new Set(["fairPay", "threeMeals", "safety", "workLife"]),
-      insight:
-        "Your team is signaling stability needs first. Lead with clarity, consistency, and practical support: predictable schedules, safety follow-through, and transparent pay/benefits communication.",
-      moves: [
-        "Reduce scheduling surprises; publish early and stick to it",
-        "Make safety & equipment checks visible and routine",
-        "Clarify pay rules, OT rules, and meal policies in writing"
-      ]
-    },
-    Q2: {
-      key: "Q2",
-      values: new Set(["teamwork", "communication", "kindness", "belonging"]),
-      insight:
-        "Your team is prioritizing connection. Lead with presence and rhythm: tight pre-shifts, clean handoffs, and culture rituals that build trust across departments.",
-      moves: [
-        "Run short daily pre-shifts with one clear message",
-        "Improve handoff notes (rooms, guest requests, maintenance)",
-        "Celebrate small wins publicly (shout-outs, photos, gratitude wall)"
-      ]
-    },
-    Q3: {
-      key: "Q3",
-      values: new Set(["growth", "leadership", "workLife"]),
-      insight:
-        "Your team is looking ahead. Lead with pathways: training, cross-training, and visible advancement criteria. People want to know there’s a future here.",
-      moves: [
-        "Offer micro-trainings (10 min) weekly and track completion",
-        "Create simple role ladders (GRA I → II, Lead, Supervisor)",
-        "Schedule 1:1s focused on goals and strengths"
-      ]
-    },
-    Q4: {
-      key: "Q4",
-      values: new Set(["respect", "recognition", "leadership"]),
-      insight:
-        "Your team is asking for dignity signals: being seen, heard, and valued by leadership. The highest ROI is often supervisor behavior + communication tone.",
-      moves: [
-        "Do quick “recognize in the moment” coaching for supervisors",
-        "Invite feedback in low-stakes ways (sticky notes, mini-huddles)",
-        "Follow up visibly (“You said / We did”)"
-      ]
-    }
-  };
-
-  function scoreQuadrants(selectedKeys){
-    const score = { Q1:0, Q2:0, Q3:0, Q4:0 };
-
-    selectedKeys.forEach(k => {
-      if (k === "workLife"){
-        score.Q1 += 0.5;
-        score.Q3 += 0.5;
-        return;
-      }
-      if (k === "leadership"){
-        score.Q3 += 0.5;
-        score.Q4 += 0.5;
-        return;
-      }
-      for (const q of Object.values(QUADRANTS)){
-        if (q.values.has(k)) score[q.key] += 1;
-      }
-    });
-
-    return score;
-  }
-
-  function topQuadrants(score){
-    const entries = Object.entries(score);
-    const max = Math.max(...entries.map(([,v])=>v));
-    const top = entries.filter(([,v])=>v===max).map(([k])=>k);
-    return { max, top };
-  }
-
-  function buildJudgement(selectedKeys){
-    const score = scoreQuadrants(selectedKeys);
-    const { top } = topQuadrants(score);
-
-    if (!selectedKeys.length){
-      return {
-        label: t().judgementDefaultTitle,
-        top,
-        score,
-        narrative: "",
-        moves: []
-      };
-    }
-
-    if (top.length === 1){
-      const q = QUADRANTS[top[0]];
-      return {
-        label: t().primary(t().quadrants[q.key]),
-        top,
-        score,
-        narrative: q.insight,
-        moves: q.moves
-      };
-    }
-
-    const names = top.map(k => t().quadrants[k]);
-    const blendedMoves = top.flatMap(k => QUADRANTS[k].moves).slice(0,5);
-
-    return {
-      label: t().blended(names),
-      top,
-      score,
-      narrative: t().blendedNarrative(names),
-      moves: blendedMoves
-    };
-  }
-     function initStickerWall(){
-    const root = document.querySelector('[data-sticker-wall]');
+  // ===== Front Desk / PMS Training Module =====
+  function initPMSTraining() {
+    const root = document.querySelector("[data-pms-module]");
     if (!root) return;
 
-    const remainingEl = root.querySelector('[data-remaining]');
-    const resetBtn = root.querySelector('[data-reset]');
-    const listEl = root.querySelector('[data-values]');
+    const contentEl = root.querySelector("[data-pms-content]");
+    const progressFillEl = root.querySelector("[data-pms-progress-fill]");
+    const progressTextEl = root.querySelector("[data-pms-progress-text]");
 
-    const langRow = root.querySelector('[data-lang-row]');
-    const wallTitleEl = root.querySelector('[data-wall-title]');
-    const wallDescEl = root.querySelector('[data-wall-desc]');
-    const tapHintEl = root.querySelector('[data-tap-hint]');
-    const chosenTitleEl = root.querySelector('[data-chosen-title]');
+    const GUEST = {
+      lastName: "Ramirez",
+      firstName: "Sofia",
+      confirmationNumber: "CC-84729",
+      roomType: "King Deluxe",
+      nights: 3,
+      checkIn: "Mar 8, 2026",
+      checkOut: "Mar 11, 2026",
+      roomNumber: "714",
+      rate: 189
+    };
 
-    const chosenEl = root.querySelector('[data-chosen]');
-    const judgementTitleEl = root.querySelector('[data-judgement-title]');
-    const judgementTextEl = root.querySelector('[data-judgement-text]');
-    const movesEl = root.querySelector('[data-judgement-moves]');
+    const ARRIVALS = [
+      GUEST,
+      {
+        lastName: "Chen",
+        firstName: "David",
+        confirmationNumber: "CC-33102",
+        roomType: "Double Queen",
+        nights: 2,
+        checkIn: "Mar 8, 2026",
+        checkOut: "Mar 10, 2026",
+        roomNumber: "502",
+        rate: 159
+      },
+      {
+        lastName: "Thompson",
+        firstName: "Michelle",
+        confirmationNumber: "CC-60215",
+        roomType: "Suite",
+        nights: 1,
+        checkIn: "Mar 8, 2026",
+        checkOut: "Mar 9, 2026",
+        roomNumber: "901",
+        rate: 329
+      }
+    ];
 
-    let remaining = 3;
-    let picks = []; // array of value keys, length <= 3
+    const AMENITIES = [
+      "Our rooftop pool is open daily from 7 AM to 10 PM — towels are provided.",
+      "We have a complimentary fitness center on the 2nd floor, open 24 hours.",
+      "Our restaurant, Sol & Sage, serves breakfast from 6:30 to 10:30 AM."
+    ];
 
-    function renderLangButtons(){
-      if (!langRow) return;
-      langRow.innerHTML = '';
+    const ANALYSIS_STEPS = [
+      {
+        title: "The Wave & Greeting",
+        behaviour: "You initiated contact before the guest reached the desk.",
+        psychology:
+          "This creates a strong first impression and reduces guest uncertainty. Proactive acknowledgment communicates attentiveness and confidence."
+      },
+      {
+        title: "Open-Ended Greeting",
+        behaviour: "\"Hi there! How can I assist you today?\"",
+        psychology:
+          "This preserves guest agency. It keeps the interaction warm and respectful instead of overly scripted or transactional."
+      },
+      {
+        title: "Asking for Last Name",
+        behaviour: "You asked for the last name on the reservation — not the room number.",
+        psychology:
+          "This protects privacy and signals professionalism. It reinforces safe and competent front desk procedure."
+      },
+      {
+        title: "Collecting Contact Information",
+        behaviour: "You confirmed email and phone conversationally.",
+        psychology:
+          "This keeps the interaction human and efficient while still validating reservation details."
+      },
+      {
+        title: "Authorization Disclosure",
+        behaviour: "You explained the authorization hold before processing the card.",
+        psychology:
+          "Clear expectation setting prevents surprise and builds trust. Financial transparency is one of the strongest service recovery preventers."
+      },
+      {
+        title: "Light Humor with Authority",
+        behaviour: "You added a soft joke about not throwing a party.",
+        psychology:
+          "Humor lowers tension while preserving standards. It communicates policy without sounding cold or punitive."
+      },
+      {
+        title: "Amenity Walkthrough While Encoding Keys",
+        behaviour: "You used dead time productively by sharing amenities.",
+        psychology:
+          "This reduces awkward silence and increases perceived value. It also helps the guest feel oriented before they leave the desk."
+      },
+      {
+        title: "Never Saying the Room Number Aloud",
+        behaviour: "You kept the room number private and directed the guest to the key packet.",
+        psychology:
+          "This is both a security and trust behavior. It shows operational maturity and protective hospitality."
+      },
+      {
+        title: "Walking Toward the Elevator",
+        behaviour: "You took two steps in the direction of travel while giving directions.",
+        psychology:
+          "This physical cue reduces confusion and gently guides guest movement. It makes the service feel escorted, not dismissed."
+      },
+      {
+        title: "Warm Closing",
+        behaviour: "\"Have a wonderful stay.\"",
+        psychology:
+          "The ending of the interaction is highly memorable. A warm close creates a positive emotional anchor."
+      }
+    ];
 
-      ["en","es","ht","ka"].forEach(code => {
-        const btn = document.createElement('button');
-        btn.className = 'btn btn--tiny langBtn' + (activeLang === code ? ' active' : '');
-        btn.type = 'button';
-        btn.textContent = t().languages[code];
+    const STEP_ORDER = [
+      "intro",
+      "greet",
+      "ask_purpose",
+      "ask_last_name",
+      "select_guest",
+      "collect_email",
+      "collect_phone",
+      "process_cc",
+      "auth_disclosure",
+      "auth_processing",
+      "make_keys",
+      "amenities",
+      "farewell",
+      "directions",
+      "complete",
+      "analysis"
+    ];
 
-        btn.addEventListener('click', () => {
-          activeLang = code;
-          renderText();
-          renderLangButtons();
-          updateResults();
-          render();
-        });
+    let step = "intro";
+    let lastNameInput = "";
+    let emailInput = "";
+    let phoneInput = "";
+    let selectedGuest = null;
+    let showArrivals = false;
+    let authProgress = 0;
+    let amenityIndex = 0;
+    let searchError = "";
+    let authInterval = null;
+    let keyTimeout = null;
+    let keysReady = false;
 
-        langRow.appendChild(btn);
+    function escapeHtml(str) {
+      return String(str).replace(/[&<>"']/g, function (m) {
+        return ({
+          "&": "&amp;",
+          "<": "&lt;",
+          ">": "&gt;",
+          '"': "&quot;",
+          "'": "&#39;"
+        })[m];
       });
     }
 
-    function renderText(){
-      if (wallTitleEl) wallTitleEl.textContent = t().wallTitle;
-      if (wallDescEl) wallDescEl.textContent = t().wallDesc;
-      if (tapHintEl) tapHintEl.textContent = t().tapHint;
-      if (chosenTitleEl) chosenTitleEl.textContent = t().chosenTitle;
-      if (resetBtn) resetBtn.textContent = t().reset;
+    function setProgress() {
+      const idx = STEP_ORDER.indexOf(step);
+      const pct = Math.max(0, Math.min(100, Math.round((idx / (STEP_ORDER.length - 1)) * 100)));
+      if (progressFillEl) progressFillEl.style.width = pct + "%";
+      if (progressTextEl) progressTextEl.textContent = pct + "%";
     }
 
-    function render(){
-      if (remainingEl) remainingEl.textContent = String(remaining);
+    function resetModule() {
+      step = "intro";
+      lastNameInput = "";
+      emailInput = "";
+      phoneInput = "";
+      selectedGuest = null;
+      showArrivals = false;
+      authProgress = 0;
+      amenityIndex = 0;
+      searchError = "";
+      keysReady = false;
 
-      listEl.innerHTML = '';
-      VALUE_KEYS.forEach(key => {
-        const name = t().values[key];
-        const count = picks.filter(p => p === key).length;
+      if (authInterval) clearInterval(authInterval);
+      if (keyTimeout) clearTimeout(keyTimeout);
 
-        const item = document.createElement('div');
-        item.className = 'stickerItem';
-        item.setAttribute('role','button');
-        item.setAttribute('tabindex','0');
-        item.setAttribute('aria-label', `${t().placeNote}: ${name}`);
+      render();
+    }
 
-        const left = document.createElement('div');
-        left.innerHTML = `<div class="stickerItem__name">${name}</div><div class="noteSmall">${t().placeNote}</div>`;
+    function beginAuthProcessing() {
+      step = "auth_processing";
+      authProgress = 0;
+      render();
 
-        const right = document.createElement('div');
-        right.className = 'stickerItem__meta';
+      if (authInterval) clearInterval(authInterval);
+      authInterval = setInterval(() => {
+        authProgress += 4;
+        if (authProgress >= 100) {
+          authProgress = 100;
+          clearInterval(authInterval);
+          render();
+          setTimeout(() => {
+            step = "make_keys";
+            keysReady = false;
+            render();
 
-        const dots = document.createElement('div');
-        dots.className = 'stickerDots';
-        for (let i = 0; i < count; i++){
-          const dot = document.createElement('div');
-          dot.className = 'dot ' + (i === 0 ? 'yellow' : (i === 1 ? 'mint' : 'sky'));
-          dots.appendChild(dot);
-        }
-
-        const badge = document.createElement('div');
-        badge.className = 'quadPill';
-        badge.style.background = 'rgba(0,0,0,.04)';
-        badge.textContent = count ? `${count}/3` : '0/3';
-
-        right.appendChild(dots);
-        right.appendChild(badge);
-
-        function handle(){
-          if (remaining <= 0) return;
-          picks.push(key);
-          remaining -= 1;
-          updateResults();
+            if (keyTimeout) clearTimeout(keyTimeout);
+            keyTimeout = setTimeout(() => {
+              keysReady = true;
+              render();
+            }, 2000);
+          }, 600);
+        } else {
           render();
         }
+      }, 80);
+    }
 
-        item.addEventListener('click', handle);
-        item.addEventListener('keydown', (e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault();
-            handle();
+    function handleSearch() {
+      const match = ARRIVALS.find(
+        (a) => a.lastName.toLowerCase() === lastNameInput.trim().toLowerCase()
+      );
+
+      if (match) {
+        searchError = "";
+        selectedGuest = match;
+        showArrivals = true;
+        step = "select_guest";
+      } else {
+        searchError = "No reservation found. Try again.";
+      }
+      render();
+    }
+
+    function guestBubble(text) {
+      return `
+        <div class="pmsTrain__guest">
+          <div class="pill pill--rose">Guest</div>
+          <div class="pmsTrain__guestBubble">${escapeHtml(text)}</div>
+        </div>
+      `;
+    }
+
+    function actionButtons(buttons) {
+      return `
+        <div class="pmsTrain__actions">
+          ${buttons.map((b) => `
+            <button class="btn ${b.variant === "secondary" ? "" : "btn--primary"}" type="button" data-action="${b.action}">
+              ${b.label}
+            </button>
+          `).join("")}
+        </div>
+      `;
+    }
+
+    function analysisMarkup() {
+      return `
+        <div class="pmsTrain__panel">
+          <div class="center">
+            <h3 class="h3">🧠 Behavioral Analysis</h3>
+            <p class="subhead">Here’s why each front desk behavior matters in practice.</p>
+          </div>
+
+          <div class="pmsTrain__analysisList">
+            ${ANALYSIS_STEPS.map((item, i) => `
+              <div class="pmsTrain__analysisItem">
+                <div class="pmsTrain__analysisTitle">
+                  <span class="pmsTrain__badgeNum">${i + 1}</span>${escapeHtml(item.title)}
+                </div>
+                <div class="pmsTrain__analysisBehavior">${escapeHtml(item.behaviour)}</div>
+                <div class="muted">${escapeHtml(item.psychology)}</div>
+              </div>
+            `).join("")}
+          </div>
+
+          <div class="resultPanel" style="margin-top:16px;">
+            <div class="resultTitle">Key takeaway</div>
+            <p class="muted">
+              Great front desk service is intentional, repeatable behavior rooted in empathy,
+              security, timing, and communication.
+            </p>
+          </div>
+
+          ${actionButtons([
+            { action: "reset", label: "Run Module Again", variant: "secondary" }
+          ])}
+        </div>
+      `;
+    }
+
+    function render() {
+      setProgress();
+
+      let html = "";
+
+      if (step === "intro") {
+        html = `
+          <div class="pmsTrain__panel">
+            <div class="pmsTrain__prompt">
+              <div class="pmsTrain__promptTitle">Training Scenario</div>
+              <div>
+                A guest has just walked through the front entrance and is now about
+                <strong>5 feet away</strong> from the front desk. Their name is
+                <strong>${GUEST.firstName} ${GUEST.lastName}</strong>.
+              </div>
+              <div class="pmsTrain__mini">
+                Your objective: guide them through a secure, warm, and professional check-in.
+              </div>
+            </div>
+            ${actionButtons([{ action: "begin", label: "Begin Module" }])}
+          </div>
+        `;
+      }
+
+      if (step === "greet") {
+        html = `
+          <div class="pmsTrain__panel">
+            <div class="pmsTrain__prompt">
+              <div class="pmsTrain__promptTitle">👋 Guest arrival</div>
+              <div>The guest is approaching. Make eye contact, smile, and wave. Then say:</div>
+              <div class="pmsTrain__mini"><em>"Hi there! How can I assist you today?"</em></div>
+            </div>
+            ${actionButtons([{ action: "greeted", label: "I greeted the guest" }])}
+          </div>
+        `;
+      }
+
+      if (step === "ask_purpose") {
+        html = `
+          <div class="pmsTrain__panel">
+            ${guestBubble("Hi! I'm checking in.")}
+            <div class="pmsTrain__prompt">
+              <div class="pmsTrain__promptTitle">Check-in confirmed</div>
+              <div>
+                Ask for the <strong>last name on the reservation</strong>. Do not ask for a room number,
+                and keep all personal and financial details private.
+              </div>
+            </div>
+            ${actionButtons([{ action: "ask_last_name", label: "Ask for last name" }])}
+          </div>
+        `;
+      }
+
+      if (step === "ask_last_name") {
+        html = `
+          <div class="pmsTrain__panel">
+            <div class="pmsTrain__prompt">
+              <div class="pmsTrain__promptTitle">Search the reservation</div>
+              <div><em>"May I have the last name on the reservation?"</em></div>
+            </div>
+            ${guestBubble(`It's ${GUEST.lastName}.`)}
+            <div class="pmsTrain__inputRow">
+              <input class="pmsTrain__input" type="text" placeholder="Type last name..." value="${escapeHtml(lastNameInput)}" data-last-name-input />
+              <button class="btn btn--primary" type="button" data-action="search_last_name">Search</button>
+            </div>
+            ${searchError ? `<div class="pmsTrain__error">${escapeHtml(searchError)}</div>` : ""}
+          </div>
+        `;
+      }
+
+      if (step === "select_guest") {
+        html = `
+          <div class="pmsTrain__panel">
+            <div class="pmsTrain__prompt">
+              <div class="pmsTrain__promptTitle">PMS arrivals list</div>
+              <div>Select the matching reservation from today's arrivals.</div>
+            </div>
+
+            <div class="pmsTrain__arrivalList">
+              ${ARRIVALS.map((a) => `
+                <button
+                  type="button"
+                  class="pmsTrain__arrival ${a.lastName === GUEST.lastName ? "pmsTrain__arrival--match" : ""}"
+                  data-select-conf="${a.confirmationNumber}"
+                >
+                  <div class="pmsTrain__arrivalName">${a.lastName}, ${a.firstName}</div>
+                  <div class="pmsTrain__arrivalMeta">
+                    Conf# ${a.confirmationNumber} · ${a.roomType} · ${a.nights} night${a.nights > 1 ? "s" : ""}
+                  </div>
+                </button>
+              `).join("")}
+            </div>
+          </div>
+        `;
+      }
+
+      if (step === "collect_email") {
+        html = `
+          <div class="pmsTrain__panel">
+            <div class="pmsTrain__prompt">
+              <div class="pmsTrain__promptTitle">Verify reservation details</div>
+              <div>
+                You found <strong>${selectedGuest.firstName} ${selectedGuest.lastName}</strong>.
+                Now confirm the <strong>email address</strong>.
+              </div>
+            </div>
+            ${guestBubble("Sure, it's sofia.ramirez@email.com")}
+            <div class="pmsTrain__inputRow">
+              <input class="pmsTrain__input" type="email" placeholder="Enter guest email..." value="${escapeHtml(emailInput)}" data-email-input />
+              <button class="btn btn--primary" type="button" data-action="confirm_email">Confirm</button>
+            </div>
+          </div>
+        `;
+      }
+
+      if (step === "collect_phone") {
+        html = `
+          <div class="pmsTrain__panel">
+            <div class="pmsTrain__prompt">
+              <div class="pmsTrain__promptTitle">Verify phone number</div>
+              <div>Now confirm the guest's <strong>phone number</strong>.</div>
+            </div>
+            ${guestBubble("(555) 234-8891")}
+            <div class="pmsTrain__inputRow">
+              <input class="pmsTrain__input" type="tel" placeholder="Enter phone number..." value="${escapeHtml(phoneInput)}" data-phone-input />
+              <button class="btn btn--primary" type="button" data-action="confirm_phone">Confirm</button>
+            </div>
+          </div>
+        `;
+      }
+
+      if (step === "process_cc") {
+        html = `
+          <div class="pmsTrain__panel">
+            <div class="pmsTrain__prompt">
+              <div class="pmsTrain__promptTitle">Payment card handling</div>
+              <div>
+                Before running the card, disclose the authorization hold clearly and professionally.
+              </div>
+            </div>
+            ${actionButtons([{ action: "auth_disclosure", label: "Inform guest about authorization" }])}
+          </div>
+        `;
+      }
+
+      if (step === "auth_disclosure") {
+        html = `
+          <div class="pmsTrain__panel">
+            <div class="pmsTrain__prompt">
+              <div class="pmsTrain__promptTitle">💳 Authorization disclosure</div>
+              <div><em>"I'll be placing an authorization on your card for the room, tax, and incidentals. The hold will return to your account within 3 to 5 business days after checkout — as long as there's no crazy party in the room!"</em></div>
+            </div>
+            ${guestBubble("Ha! No parties, I promise. Go ahead!")}
+            ${actionButtons([{ action: "process_auth", label: "Process authorization" }])}
+          </div>
+        `;
+      }
+
+      if (step === "auth_processing") {
+        html = `
+          <div class="pmsTrain__panel">
+            <div class="pmsTrain__prompt">
+              <div class="pmsTrain__promptTitle">Processing authorization...</div>
+              <div class="pmsTrain__meter">
+                <div class="pmsTrain__meterFill" style="width:${authProgress}%"></div>
+              </div>
+              <div class="pmsTrain__mini">
+                ${authProgress < 100
+                  ? "Verifying card..."
+                  : `✓ Authorization approved — $${(GUEST.rate * GUEST.nights * 1.15).toFixed(2)}`}
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      if (step === "make_keys") {
+        html = `
+          <div class="pmsTrain__panel">
+            <div class="pmsTrain__prompt">
+              <div class="pmsTrain__promptTitle">🔑 Encode two keys</div>
+              <div>While the keys are encoding, use the time to share useful guest information.</div>
+            </div>
+            <div class="pmsTrain__mini">
+              ${keysReady ? "✓ Two keys ready!" : "Encoding keys..."}
+            </div>
+            ${actionButtons([{ action: "share_amenities", label: "Share amenities" }])}
+          </div>
+        `;
+      }
+
+      if (step === "amenities") {
+        html = `
+          <div class="pmsTrain__panel">
+            <div class="pmsTrain__prompt">
+              <div class="pmsTrain__promptTitle">Share amenity ${amenityIndex + 1} of 3</div>
+              <div><em>"${escapeHtml(AMENITIES[amenityIndex])}"</em></div>
+            </div>
+            ${guestBubble(
+              amenityIndex === 0
+                ? "Oh nice, a pool!"
+                : amenityIndex === 1
+                ? "Great, I was hoping there was a gym."
+                : "Perfect, I'll check that out for breakfast."
+            )}
+            ${actionButtons([
+              { action: "next_amenity", label: amenityIndex < 2 ? "Next amenity" : "Continue" }
+            ])}
+          </div>
+        `;
+      }
+
+      if (step === "farewell") {
+        html = `
+          <div class="pmsTrain__panel">
+            <div class="pmsTrain__prompt">
+              <div class="pmsTrain__promptTitle">Guest close-out</div>
+              <div><em>"If you need anything at all, just dial 0 from your room phone or come see us here at the front desk. Have a wonderful stay!"</em></div>
+            </div>
+            ${guestBubble("Thank you so much! Actually — which way is my room?")}
+            ${actionButtons([{ action: "directions", label: "Give directions" }])}
+          </div>
+        `;
+      }
+
+      if (step === "directions") {
+        html = `
+          <div class="pmsTrain__panel">
+            <div class="pmsTrain__prompt">
+              <div class="pmsTrain__promptTitle">🚶 Secure room directions</div>
+              <div><em>"Your room number is right on the key card — head to the corresponding floor, and you'll find your room on the left side of the hallway."</em></div>
+              <div class="pmsTrain__mini">Take two steps toward the elevator while gesturing in that direction.</div>
+            </div>
+            ${guestBubble("Got it, thank you!")}
+            ${actionButtons([{ action: "complete", label: "Complete check-in" }])}
+          </div>
+        `;
+      }
+
+      if (step === "complete") {
+        html = `
+          <div class="pmsTrain__panel center">
+            <div class="resultTitle">Module complete</div>
+            <p class="muted" style="margin-top:8px;">
+              ${GUEST.firstName} ${GUEST.lastName} has been checked in successfully.
+            </p>
+            ${actionButtons([
+              { action: "analysis", label: "View Behavioral Analysis" },
+              { action: "reset", label: "Start Over", variant: "secondary" }
+            ])}
+          </div>
+        `;
+      }
+
+      if (step === "analysis") {
+        html = analysisMarkup();
+      }
+
+      contentEl.innerHTML = html;
+      bindEvents();
+    }
+
+    function bindEvents() {
+      const actionEls = contentEl.querySelectorAll("[data-action]");
+      actionEls.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const action = btn.getAttribute("data-action");
+
+          if (action === "begin") step = "greet";
+          if (action === "greeted") step = "ask_purpose";
+          if (action === "ask_last_name") step = "ask_last_name";
+          if (action === "search_last_name") handleSearch();
+          if (action === "confirm_email" && emailInput.trim()) step = "collect_phone";
+          if (action === "confirm_phone" && phoneInput.trim()) step = "process_cc";
+          if (action === "auth_disclosure") step = "auth_disclosure";
+          if (action === "process_auth") return beginAuthProcessing();
+          if (action === "share_amenities") step = "amenities";
+          if (action === "next_amenity") {
+            if (amenityIndex < 2) {
+              amenityIndex += 1;
+            } else {
+              step = "farewell";
+            }
+          }
+          if (action === "directions") step = "directions";
+          if (action === "complete") step = "complete";
+          if (action === "analysis") step = "analysis";
+          if (action === "reset") return resetModule();
+
+          render();
+        });
+      });
+
+      const selectEls = contentEl.querySelectorAll("[data-select-conf]");
+      selectEls.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const conf = btn.getAttribute("data-select-conf");
+          const found = ARRIVALS.find((a) => a.confirmationNumber === conf);
+          if (found && found.lastName === GUEST.lastName) {
+            selectedGuest = found;
+            step = "collect_email";
+            render();
           }
         });
-
-        item.appendChild(left);
-        item.appendChild(right);
-        listEl.appendChild(item);
       });
 
-      chosenEl.innerHTML = '';
-      picks.forEach((key, idx) => {
-        const pill = document.createElement('div');
-        pill.className = 'quadPill';
-        pill.style.background =
-          idx === 0 ? 'var(--note-yellow)' :
-          idx === 1 ? 'var(--note-mint)' :
-          'var(--note-sky)';
-        pill.textContent = t().values[key];
-        chosenEl.appendChild(pill);
-      });
-
-      resetBtn.disabled = picks.length === 0;
-    }
-
-    function updateResults(){
-      const j = buildJudgement(picks);
-      judgementTitleEl.textContent = j.label;
-      judgementTextEl.textContent = j.narrative;
-
-      movesEl.innerHTML = '';
-      if (j.moves && j.moves.length){
-        j.moves.forEach(m => {
-          const li = document.createElement('li');
-          li.textContent = m;
-          movesEl.appendChild(li);
+      const lastNameInputEl = contentEl.querySelector("[data-last-name-input]");
+      if (lastNameInputEl) {
+        lastNameInputEl.addEventListener("input", (e) => {
+          lastNameInput = e.target.value;
+          searchError = "";
+        });
+        lastNameInputEl.addEventListener("keydown", (e) => {
+          if (e.key === "Enter") handleSearch();
         });
       }
 
-      if (picks.length < 3){
-        judgementTitleEl.textContent = t().progress(picks.length);
-        judgementTextEl.textContent = t().needAllThree;
-        movesEl.innerHTML = '';
+      const emailInputEl = contentEl.querySelector("[data-email-input]");
+      if (emailInputEl) {
+        emailInputEl.addEventListener("input", (e) => {
+          emailInput = e.target.value;
+        });
+        emailInputEl.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" && emailInput.trim()) {
+            step = "collect_phone";
+            render();
+          }
+        });
       }
 
-      if (picks.length >= 3){
-        remaining = 0;
+      const phoneInputEl = contentEl.querySelector("[data-phone-input]");
+      if (phoneInputEl) {
+        phoneInputEl.addEventListener("input", (e) => {
+          phoneInput = e.target.value;
+        });
+        phoneInputEl.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" && phoneInput.trim()) {
+            step = "process_cc";
+            render();
+          }
+        });
       }
-
-      if (remainingEl) remainingEl.textContent = String(remaining);
     }
 
-    resetBtn.addEventListener('click', () => {
-      remaining = 3;
-      picks = [];
-      judgementTitleEl.textContent = t().judgementDefaultTitle;
-      judgementTextEl.textContent = t().judgementDefaultDesc;
-      movesEl.innerHTML = '';
-      render();
-    });
-
-    renderText();
-    renderLangButtons();
-    updateResults();
     render();
   }
 
   document.addEventListener('DOMContentLoaded', function(){
     initReveal();
     initStickerWall();
+    initPMSTraining();
   });
 
 })();
